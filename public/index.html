@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Green Kingdom LAN Prototype</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <h1>局域网双人原型</h1>
+    <p class="scope">仅房间、身份与点击标记同步；不含地图玩法、建筑、单位或战斗。</p>
+    <section class="panel" aria-label="Connection controls">
+      <div id="connection-status" class="status">正在连接服务器…</div>
+      <button id="create-room" type="button">创建房间</button>
+      <label>房间号 <input id="room-id" inputmode="numeric" maxlength="6" placeholder="例如 123456"></label>
+      <button id="join-room" type="button">加入房间</button>
+      <p>我的身份：<strong id="identity">未分配</strong></p>
+      <p>房间：<strong id="room-display">未加入</strong></p>
+      <p id="notice" role="status"></p>
+    </section>
+    <canvas id="board" width="960" height="540" aria-label="Click board">你的点击会显示为蓝色；对方点击显示为橙色。</canvas>
+    <p class="hint">点击画布发送归一化坐标。等待另一名玩家加入后，对方才能看到标记。</p>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

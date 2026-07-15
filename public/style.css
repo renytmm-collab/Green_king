@@ -1,0 +1,13 @@
+:root { font-family: system-ui, "Microsoft YaHei", sans-serif; color: #102016; background: #f4f7f0; }
+body { margin: 0; padding: 24px; }
+main { max-width: 960px; margin: auto; }
+h1 { margin-bottom: 4px; }
+.scope, .hint { color: #4d6350; }
+.panel { background: white; border: 1px solid #c6d6c2; border-radius: 10px; padding: 16px; margin: 18px 0; }
+button, input { font: inherit; padding: 8px 10px; margin: 4px; }
+button { cursor: pointer; background: #377b48; border: 0; color: white; border-radius: 5px; }
+input { width: 110px; border: 1px solid #9cb69a; border-radius: 5px; }
+.status { display: inline-block; padding: 5px 9px; background: #f5d9d9; border-radius: 5px; margin-right: 10px; }
+.status.connected { background: #d7efd9; }
+#notice { min-height: 1.4em; color: #7a321f; }
+canvas { display: block; width: 100%; height: auto; background: #d8ead4; border: 2px solid #5c865b; border-radius: 8px; cursor: crosshair; touch-action: manipulation; }
