@@ -9,7 +9,7 @@
 <body>
   <main>
     <h1>局域网双人原型</h1>
-    <p class="scope">仅房间、身份与点击标记同步；不含地图玩法、建筑、单位或战斗。</p>
+    <p class="scope">固定地图与兵营路线同步原型；不含资源、单位、战斗或胜负。</p>
     <section class="panel" aria-label="Connection controls">
       <div id="connection-status" class="status">正在连接服务器…</div>
       <button id="create-room" type="button">创建房间</button>
@@ -19,8 +19,8 @@
       <p>房间：<strong id="room-display">未加入</strong></p>
       <p id="notice" role="status"></p>
     </section>
-    <canvas id="board" width="960" height="540" aria-label="Click board">你的点击会显示为蓝色；对方点击显示为橙色。</canvas>
-    <p class="hint">点击画布发送归一化坐标。等待另一名玩家加入后，对方才能看到标记。</p>
+    <canvas id="board" width="960" height="540" aria-label="Map route board">从自己的兵营拖拽到相邻目标以建立路线。</canvas>
+    <p class="hint">按住自己高亮的兵营并拖到相邻节点。临时线只在本机显示，服务器确认后才同步正式路线。</p>
   </main>
   <script src="/app.js"></script>
 </body>
