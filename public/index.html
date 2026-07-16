@@ -9,7 +9,7 @@
 <body>
   <main>
     <h1>局域网双人原型</h1>
-    <p class="scope">服务器权威金币、固定建筑位与路线同步；不含单位、战斗或胜负。</p>
+    <p class="scope">服务器权威格子地图、自由建造、金币与折线路线同步；不含单位、战斗或胜负。</p>
     <section class="panel" aria-label="Connection controls">
       <div id="connection-status" class="status">正在连接服务器…</div>
       <button id="create-room" type="button">创建房间</button>
@@ -21,9 +21,9 @@
       <p id="notice" role="status"></p>
     </section>
     <section id="build-menu" class="panel" hidden><strong>建造</strong><button type="button" data-building="mine">矿山：100</button><button type="button" data-building="tower">防御塔：150</button><button type="button" data-building="barracks">兵营：180</button></section>
-    <canvas id="board" width="960" height="540" aria-label="Map route board">从自己的兵营拖拽到相邻目标以建立路线。</canvas>
-    <p class="hint">点击自己的虚线空位建造；按住自己的兵营拖到相邻节点。所有金币与建筑均由服务器确认后同步。</p>
+    <canvas id="board" aria-label="格子地图与路线画布">从自己的兵营拖拽到敌方建筑以建立路线。</canvas>
+    <p class="hint">点击自己领地的空格建造；按住自己的兵营，在空地中绘制折线并在敌方建筑上松开。路线不能穿过其他建筑。</p>
   </main>
-  <script src="/app.js"></script>
+  <script type="module" src="/app.js"></script>
 </body>
 </html>

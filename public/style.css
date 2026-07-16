@@ -10,4 +10,4 @@ input { width: 110px; border: 1px solid #9cb69a; border-radius: 5px; }
 .status { display: inline-block; padding: 5px 9px; background: #f5d9d9; border-radius: 5px; margin-right: 10px; }
 .status.connected { background: #d7efd9; }
 #notice { min-height: 1.4em; color: #7a321f; }
-canvas { display: block; width: 100%; height: auto; background: #d8ead4; border: 2px solid #5c865b; border-radius: 8px; cursor: crosshair; touch-action: none; }
+canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: #d8ead4; border: 2px solid #5c865b; border-radius: 8px; cursor: crosshair; touch-action: none; }

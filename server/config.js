@@ -5,4 +5,7 @@ const GAME_CONFIG = Object.freeze({
   mineIncomeIntervalMs: 2000
 });
 
-module.exports = { GAME_CONFIG };
+const MAP_CONFIG = Object.freeze({ rows: 9, columns: 18, homeColumns: 6 });
+const ROUTE_CONFIG = Object.freeze({ minPoints: 2, maxPoints: 100, endpointTolerance: 0.08, minLength: 0.05, maxLength: 4 });
+
+module.exports = { GAME_CONFIG, MAP_CONFIG, ROUTE_CONFIG };

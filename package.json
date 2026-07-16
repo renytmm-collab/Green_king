@@ -5,7 +5,7 @@
   "description": "Minimal LAN two-player pointer synchronization prototype.",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test test/server.test.js"
+    "test": "node --test --test-isolation=none test/server.test.js"
   },
   "dependencies": {
     "express": "^5.2.1",
