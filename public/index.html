@@ -8,20 +8,96 @@
 </head>
 <body>
   <main>
-    <h1>局域网双人原型</h1>
-    <p class="scope">仅房间、身份与点击标记同步；不含地图玩法、建筑、单位或战斗。</p>
-    <section class="panel" aria-label="Connection controls">
+    <h1>绿色王国之战：局域网双人变体</h1>
+    <p class="scope">扩张底盘、经营矿山、布置防御塔和兵营路线；摧毁敌方城堡即可获胜。</p>
+    <section class="panel map-picker" aria-label="地图选择">
+      <strong>选择地图（房主设定）</strong>
+      <div id="map-cards" class="map-cards"></div>
+      <p id="map-note" class="map-note">创建房间前先选一张地图；加入方将使用房主所选地图。</p>
+    </section>
+    <section class="panel controls" aria-label="连接控制">
       <div id="connection-status" class="status">正在连接服务器…</div>
       <button id="create-room" type="button">创建房间</button>
       <label>房间号 <input id="room-id" inputmode="numeric" maxlength="6" placeholder="例如 123456"></label>
       <button id="join-room" type="button">加入房间</button>
+      <button id="exit-room" type="button" hidden>返回大厅</button>
+      <button id="sound-toggle" type="button">音效：开</button>
       <p>我的身份：<strong id="identity">未分配</strong></p>
       <p>房间：<strong id="room-display">未加入</strong></p>
+      <p>我的金币：<strong id="gold-display">--</strong></p>
+      <p>战局：<strong id="battle-display">等待对手</strong></p>
       <p id="notice" role="status"></p>
     </section>
-    <canvas id="board" width="960" height="540" aria-label="Click board">你的点击会显示为蓝色；对方点击显示为橙色。</canvas>
-    <p class="hint">点击画布发送归一化坐标。等待另一名玩家加入后，对方才能看到标记。</p>
+    <div class="board-wrap">
+      <canvas id="board" aria-label="双人王国建造与战斗画布">从自己的兵营拖拽到敌方建筑以建立路线。</canvas>
+      <section id="build-menu" class="panel action-menu floating build-panel" hidden>
+        <button type="button" data-building="mine" class="build-card">
+          <img class="build-icon-lg" alt="矿山" src="/assets/original/buildings/mine_player1.png">
+          <span class="build-info"><span class="build-name">Mine</span><span class="build-cost">100</span></span>
+        </button>
+        <button type="button" data-building="tower" class="build-card">
+          <img class="build-icon-lg" alt="防御塔" src="/assets/original/buildings/tower_player1.png">
+          <span class="build-info"><span class="build-name">Tower</span><span class="build-cost">150</span></span>
+        </button>
+        <button type="button" data-building="barracks" class="build-card">
+          <img class="build-icon-lg" alt="兵营" src="/assets/original/buildings/barracks_player1.png">
+          <span class="build-info"><span class="build-name">Barracks</span><span class="build-cost">180</span></span>
+        </button>
+      </section>
+      <section id="clear-menu" class="panel action-menu floating" hidden>
+        <strong>清除障碍</strong>
+        <button id="clear-obstacle" type="button">Clear</button>
+      </section>
+      <section id="upgrade-menu" class="panel action-menu floating upgrade-panel" hidden>
+        <strong id="upgrade-menu-title">升级</strong>
+        <div id="upgrade-cards" class="upgrade-cards"></div>
+        <button id="upgrade-cancel-route" type="button" class="route-btn" hidden>
+          <span class="route-icon cancel-icon">✕</span>
+          <span class="route-label">取消路线</span>
+        </button>
+        <button id="upgrade-demolish" type="button" class="route-btn demolish-btn" hidden>
+          <span class="route-icon demolish-icon">⛏</span>
+          <span class="route-label">拆除建筑</span>
+        </button>
+        <button id="upgrade-close" type="button" class="route-btn">
+          <span class="route-label">关闭</span>
+        </button>
+      </section>
+    </div>
+    <section id="reconnect-banner" class="panel banner" hidden>
+      <span id="reconnect-text">正在重连房间…</span>
+      <button id="cancel-reconnect" type="button">取消重连</button>
+    </section>
+    <div id="rematch-overlay" class="overlay" hidden>
+      <div class="overlay-card">
+        <h2 id="rematch-result">对局结束</h2>
+        <p id="rematch-hint">点击「再来一局」，双方确认后重开。</p>
+        <button id="rematch-btn" type="button">再来一局</button>
+      </div>
+    </div>
+    <div id="exit-overlay" class="overlay" hidden>
+      <div class="overlay-card">
+        <h2>返回大厅？</h2>
+        <p>房间 <strong id="exit-room-label">—</strong> 的对局会继续进行，对手不受影响；你可以随时返回对局。</p>
+        <div class="overlay-actions">
+          <button id="exit-confirm" type="button">返回大厅</button>
+          <button id="exit-cancel" type="button">继续对局</button>
+        </div>
+      </div>
+    </div>
+    <div id="lobby-overlay" class="overlay" hidden>
+      <div class="overlay-card">
+        <h2>已返回大厅</h2>
+        <p>房间 <strong id="lobby-room">—</strong> 的对局仍在进行，对手继续作战。你可以随时返回对局。</p>
+        <p id="lobby-status" class="lobby-status"></p>
+        <div class="overlay-actions">
+          <button id="lobby-return" type="button">返回对局</button>
+          <button id="lobby-exit" type="button" class="ghost-btn">彻底退出房间</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint">点击己方建筑（矿场/防御塔/兵营/城堡）可在建筑旁看到升级项；除主城堡外，菜单里还有「拆除建筑」（不返还建造金币，相关路线一并取消，点击即拆无需确认）。从兵营拖到敌方建筑设定进攻路线；拖拽时靠近另一条己方路线会自动吸附并入、共用通道。对局中点「返回大厅」可回到大厅（房间保留、对手继续对局，随时可返回）；结束后可「再来一局」重开；断线会自动重连原房间。</p>
   </main>
-  <script src="/app.js"></script>
+  <script type="module" src="/app.js"></script>
 </body>
 </html>
